@@ -5,6 +5,17 @@ from pathlib import Path
 ROOT = Path(__file__).parent
 DIST = ROOT / 'dist'
 BASE = 'https://www.calculawatt.com'
+GA_TAG = '''
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RM031EJ6TZ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-RM031EJ6TZ');
+</script>
+'''
 TOOL_TEMPLATE = (ROOT / 'templates' / 'tool-shell.html').read_text()
 FAVICON = TOOL_TEMPLATE.split('<link rel="icon"', 1)[1].split('>', 1)[0]
 FAVICON = '<link rel="icon"' + FAVICON + '>'
@@ -35,7 +46,7 @@ def footer():
 def doc(title, description, path, body, active='', scripts=(), body_attr=''):
     url = BASE + path
     script_tags = ''.join(f'<script src="/{src}" defer></script>' for src in scripts)
-    return f'''<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#092f3d"><meta name="description" content="{escape(description, quote=True)}"><meta name="robots" content="index,follow"><link rel="canonical" href="{url}"><meta property="og:type" content="website"><meta property="og:title" content="{escape(title, quote=True)}"><meta property="og:description" content="{escape(description, quote=True)}"><meta property="og:url" content="{url}"><title>{escape(title)} | CalculaWatt</title>{FAVICON}<link rel="stylesheet" href="/styles.css"><link rel="stylesheet" href="/site.css">{script_tags}</head><body {body_attr}>{header(active)}{body}{footer()}</body></html>'''
+    return f'''<!doctype html><html lang="es"><head>{GA_TAG}<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#092f3d"><meta name="description" content="{escape(description, quote=True)}"><meta name="robots" content="index,follow"><link rel="canonical" href="{url}"><meta property="og:type" content="website"><meta property="og:title" content="{escape(title, quote=True)}"><meta property="og:description" content="{escape(description, quote=True)}"><meta property="og:url" content="{url}"><title>{escape(title)} | CalculaWatt</title>{FAVICON}<link rel="stylesheet" href="/styles.css"><link rel="stylesheet" href="/site.css">{script_tags}</head><body {body_attr}>{header(active)}{body}{footer()}</body></html>'''
 
 def write(path, content):
     dest = DIST / path.lstrip('/') / 'index.html' if path != '/' else DIST / 'index.html'
