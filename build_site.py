@@ -4,7 +4,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).parent
 DIST = ROOT / 'dist'
-BASE = 'https://calculawatt.vercel.app'
+BASE = 'https://www.calculawatt.com'
 TOOL_TEMPLATE = (ROOT / 'templates' / 'tool-shell.html').read_text()
 FAVICON = TOOL_TEMPLATE.split('<link rel="icon"', 1)[1].split('>', 1)[0]
 FAVICON = '<link rel="icon"' + FAVICON + '>'

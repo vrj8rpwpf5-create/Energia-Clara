@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://calculawatt.vercel.app/sitemap.xml
+Sitemap: https://www.calculawatt.com/sitemap.xml
