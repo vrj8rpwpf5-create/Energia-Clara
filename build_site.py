@@ -6,14 +6,16 @@ ROOT = Path(__file__).parent
 DIST = ROOT / 'dist'
 BASE = 'https://www.calculawatt.com'
 GA_TAG = '''
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-RM031EJ6TZ"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-RM031EJ6TZ');
+  gtag('consent', 'default', {
+    analytics_storage: 'denied',
+    ad_storage: 'denied',
+    ad_user_data: 'denied',
+    ad_personalization: 'denied',
+    wait_for_update: 500
+  });
 </script>
 '''
 TOOL_TEMPLATE = (ROOT / 'templates' / 'tool-shell.html').read_text()
@@ -42,12 +44,14 @@ def header(active=''):
     return f'''<header class="global-header"><div class="header-inner"><a class="site-logo" href="/"><span aria-hidden="true">☼</span><span>CalculaWatt</span></a><nav class="global-nav" aria-label="Navegación principal">{nav}<a class="nav-cta" href="/calculadoras/placas-solares/">Empezar a calcular</a></nav></div></header>'''
 
 def footer():
-    return '''<footer class="site-footer"><div class="footer-inner"><div><a class="site-logo" href="/"><span aria-hidden="true">☼</span><span>CalculaWatt</span></a><p>Herramientas y guías para entender el consumo de tu hogar y comparar inversiones con supuestos visibles.</p></div><div><h3>Explora</h3><a href="/calculadoras/placas-solares/">Placas y batería</a><a href="/calculadoras/aerotermia-gas/">Aerotermia y gas</a><a href="/calculadoras/electrodomesticos/">Electrodomésticos</a><a href="/calculadoras/aislamiento/">Aislamiento</a></div><div><h3>Información</h3><a href="/metodologia/">Metodología y límites</a><a href="/sobre-nosotros/">Sobre el proyecto</a><a href="/privacidad/">Privacidad</a></div></div><div class="footer-bottom">© 2026 CalculaWatt · Resultados orientativos. Revisa tus datos antes de contratar o invertir.</div></footer>'''
+    return '''<footer class="site-footer"><div class="footer-inner"><div><a class="site-logo" href="/"><span aria-hidden="true">☼</span><span>CalculaWatt</span></a><p>Herramientas y guías para entender el consumo de tu hogar y comparar inversiones con supuestos visibles.</p></div><div><h3>Explora</h3><a href="/calculadoras/placas-solares/">Placas y batería</a><a href="/calculadoras/aerotermia-gas/">Aerotermia y gas</a><a href="/calculadoras/electrodomesticos/">Electrodomésticos</a><a href="/calculadoras/aislamiento/">Aislamiento</a></div><div><h3>Información</h3><a href="/metodologia/">Metodología y límites</a><a href="/sobre-nosotros/">Sobre el proyecto</a><a href="/aviso-legal/">Aviso legal</a><a href="/privacidad/">Política de privacidad</a><a href="/cookies/">Política de cookies</a><button class="cookie-open" id="cookie-open" type="button">Cambiar preferencias de cookies</button></div></div><div class="footer-bottom">© 2026 CalculaWatt · Resultados orientativos. Revisa tus datos antes de contratar o invertir.</div></footer>'''
+
+COOKIE_UI = '''<section class="cookie-panel" id="cookie-banner" aria-labelledby="cookie-title" hidden><h2 id="cookie-title">Tu privacidad en CalculaWatt</h2><p>Usamos almacenamiento necesario para recordar tu elección. Google Analytics solo se activa si aceptas las cookies analíticas. No mostramos publicidad. Consulta la <a href="/cookies/">política de cookies</a>.</p><div class="cookie-actions"><button id="cookie-accept" type="button">Aceptar</button><button id="cookie-reject" type="button">Rechazar</button><button id="cookie-configure" type="button">Configurar</button></div></section><section class="cookie-panel" id="cookie-settings" aria-labelledby="cookie-settings-title" hidden><h2 id="cookie-settings-title" tabindex="-1">Preferencias de cookies</h2><p>Activa solo las categorías que quieras. Puedes cambiar tu elección desde el pie de cualquier página.</p><label class="cookie-option"><input type="checkbox" checked disabled> Necesarias: guardar tu preferencia de consentimiento</label><label class="cookie-option"><input type="checkbox" id="cookie-analytics"> Analíticas: Google Analytics 4</label><p>Publicidad: desactivada; se integrará una CMP certificada antes de usar AdSense.</p><button class="cookie-save" id="cookie-save" type="button">Guardar preferencias</button></section>'''
 
 def doc(title, description, path, body, active='', scripts=(), body_attr=''):
     url = BASE + path
     script_tags = ''.join(f'<script src="/{src}" defer></script>' for src in scripts)
-    return f'''<!doctype html><html lang="es"><head>{GA_TAG}<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#092f3d"><meta name="description" content="{escape(description, quote=True)}"><meta name="robots" content="index,follow"><link rel="canonical" href="{url}"><meta property="og:type" content="website"><meta property="og:title" content="{escape(title, quote=True)}"><meta property="og:description" content="{escape(description, quote=True)}"><meta property="og:url" content="{url}"><title>{escape(title)} | CalculaWatt</title>{FAVICON}<link rel="stylesheet" href="/styles.css"><link rel="stylesheet" href="/site.css">{script_tags}</head><body {body_attr}>{header(active)}{body}{footer()}</body></html>'''
+    return f'''<!doctype html><html lang="es"><head>{GA_TAG}<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#092f3d"><meta name="description" content="{escape(description, quote=True)}"><meta name="robots" content="index,follow"><link rel="canonical" href="{url}"><meta property="og:type" content="website"><meta property="og:title" content="{escape(title, quote=True)}"><meta property="og:description" content="{escape(description, quote=True)}"><meta property="og:url" content="{url}"><title>{escape(title)} | CalculaWatt</title>{FAVICON}<link rel="stylesheet" href="/styles.css"><link rel="stylesheet" href="/site.css"><link rel="stylesheet" href="/consent.css">{script_tags}<script src="/consent.js" defer></script></head><body {body_attr}>{header(active)}{body}{footer()}{COOKIE_UI}</body></html>'''
 
 def write(path, content):
     dest = DIST / path.lstrip('/') / 'index.html' if path != '/' else DIST / 'index.html'
@@ -164,12 +168,17 @@ article_page('Cómo calculamos y qué dejamos fuera','Fórmulas, supuestos y lí
 about='''<p>ECalculaWatt es un proyecto independiente de herramientas para entender el consumo energético doméstico. Nuestro objetivo es que una persona pueda comprobar por sí misma los supuestos detrás de una propuesta de ahorro y llegar mejor preparada a una conversación con instaladores o profesionales.</p><p>Las calculadoras no piden registro ni venden presupuestos. Los valores iniciales son escenarios de ejemplo. Las herramientas muestran fórmulas, límites y enlaces a fuentes públicas. No cobramos por recomendar marcas ni presentamos una opción como ganadora por defecto.</p><h2>Cómo usar el sitio</h2><ol><li>Empieza con tus facturas o mediciones, no con los valores de ejemplo.</li><li>Introduce precios y presupuestos comparables.</li><li>Prueba escenarios pesimistas y optimistas.</li><li>Consulta la <a href="/metodologia/">metodología</a> antes de tomar una decisión económica.</li></ol><p>Este sitio no sustituye una auditoría energética, un proyecto de instalación ni asesoramiento técnico o financiero individual.</p>'''
 article_page('Sobre CalculaWatt','Una forma más transparente de explorar el ahorro energético en casa.','/sobre-nosotros/',about,'about')
 
-privacy='''<p>Esta página describe el funcionamiento de la versión actual de CalculaWatt. Antes de activar publicidad, analítica u otras tecnologías que traten datos, la información se actualizará.</p><h2>Datos de las calculadoras</h2><p>Los números que introduces en las calculadoras se procesan en tu navegador. El código actual no los envía a una base de datos propia y no necesitas crear una cuenta. Al cerrar o recargar la página, los cambios no se conservan de forma deliberada.</p><h2>Servicio de alojamiento</h2><p>Como sucede con cualquier web, el proveedor de alojamiento puede procesar datos técnicos necesarios para entregar la página, como dirección IP, fecha de acceso y solicitudes HTTP. Este documento no afirma que el alojamiento carezca de registros técnicos.</p><h2>Cookies y publicidad</h2><p>El código de esta versión no instala analítica, publicidad ni un sistema propio de cookies de seguimiento. No se muestran anuncios de AdSense. Si se incorpora publicidad, esta política se ampliará con los proveedores, cookies y opciones de consentimiento aplicables antes de activarla.</p><h2>Control de tus datos</h2><p>No hay formularios de envío de datos personales en esta versión. Los valores introducidos pueden borrarse recargando la página. La identidad y el canal de contacto del responsable deberán incorporarse antes de activar servicios que traten datos personales adicionales.</p>'''
-article_page('Privacidad','Qué ocurre con los datos que introduces en esta versión de la web.','/privacidad/',privacy,'',False)
+from legal_content import NOTICE, PRIVACY, COOKIES
+article_page('Aviso Legal','Titular, condiciones de uso y límites de CalculaWatt.','/aviso-legal/',NOTICE,'',False)
+article_page('Política de Privacidad','Cómo trata CalculaWatt los datos personales.','/privacidad/',PRIVACY,'',False)
+article_page('Política de Cookies','Cookies, consentimiento y opciones de configuración.','/cookies/',COOKIES,'',False)
 
-paths=['/']+[f'/calculadoras/{slug}/' for slug,_,_,_ in TOOLS]+[f'/guias/{slug}/' for slug,_,_ in GUIDES]+['/metodologia/','/sobre-nosotros/','/privacidad/']
+paths=['/']+[f'/calculadoras/{slug}/' for slug,_,_,_ in TOOLS]+[f'/guias/{slug}/' for slug,_,_ in GUIDES]+['/metodologia/','/sobre-nosotros/','/aviso-legal/','/privacidad/','/cookies/']
 (DIST/'sitemap.xml').write_text('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'+''.join(f'<url><loc>{BASE}{path}</loc></url>\n' for path in paths)+'</urlset>\n')
 (DIST/'robots.txt').write_text(f'User-agent: *\nAllow: /\n\nSitemap: {BASE}/sitemap.xml\n')
 print(f'Built {len(paths)} pages in {DIST}')
 
 (DIST/'ev-tools.js').write_text((ROOT/'assets'/'ev-tools.js').read_text())
+
+for asset in ('consent.js', 'consent.css'):
+    (DIST / asset).write_text((ROOT / 'assets' / asset).read_text())

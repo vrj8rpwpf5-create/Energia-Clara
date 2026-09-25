@@ -1,11 +1,10 @@
-# Antes de publicar y solicitar AdSense
+# Pendientes del titular antes de monetizar
 
-La web y sus calculadoras están preparadas localmente, pero hay pasos que requieren datos y cuentas del propietario. No se ha publicado esta versión ni enviado una solicitud a AdSense.
+La web publica Aviso Legal, Política de Privacidad y Política de Cookies, con consentimiento analítico denegado por defecto. No hay anuncios, ID de editor de AdSense ni `ads.txt` definitivo.
 
-1. Indicar la identidad del responsable del sitio y un correo de contacto público. Con esos datos, completar las páginas de privacidad y aviso legal conforme a la situación real del titular.
-2. Decidir si se usará el dominio actual de Sites o un dominio propio. Si cambia, actualizar `BASE` en `build_site.py`, regenerar y revisar todas las URL del sitemap.
-3. Publicar la versión final con acceso público y verificar las 14 páginas, `robots.txt` y `sitemap.xml` desde fuera de una sesión iniciada.
-4. Añadir el sitio a Google Search Console, verificar la propiedad y enviar el sitemap. La indexación no está garantizada ni es inmediata.
-5. Crear o usar una cuenta AdSense del titular. Google debe revisar y aprobar el sitio; aún no existe un identificador de editor para crear un `ads.txt` real.
-6. Antes de activar anuncios, actualizar la política de privacidad con los proveedores y cookies usados, instalar la solución de consentimiento exigida para el tráfico del EEE/Reino Unido/Suiza cuando corresponda y configurar `ads.txt` con el ID real del editor.
-7. Revisar periódicamente que los precios y reglas descritos en las guías continúan vigentes. Las herramientas son orientativas y no sustituyen una valoración profesional.
+1. Completar el NIF y domicilio reales de Álvaro Apasanta en `legal_content.py` y regenerar la web. Son marcadores PENDIENTE visibles y deben resolverse antes de dar por cerrado el cumplimiento legal.
+2. Activar y comprobar la recepción de `contacto@calculawatt.com`. Está publicado como canal de contacto, pero su buzón no se ha configurado en esta tarea.
+3. Crear o usar una cuenta AdSense del titular y esperar a que Google apruebe el sitio. No se ha solicitado la aprobación.
+4. Antes de cargar anuncios para tráfico del EEE, Reino Unido y Suiza, integrar una CMP certificada por Google con IAB TCF; conectar sus elecciones con Consent Mode y sustituir o retirar el banner propio para evitar dos mecanismos contradictorios. Actualizar las políticas con proveedores y cookies publicitarias reales.
+5. Publicar `ads.txt` únicamente cuando exista el ID real de editor y la línea proporcionada por AdSense.
+6. Revisar periódicamente tarifas, normas, proveedores y enlaces de las guías.
