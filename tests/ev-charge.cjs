@@ -16,3 +16,14 @@ for (const values of [[0,20,80,.2,90], [60,80,20,.2,90], [60,-1,80,.2,90],
  [60,20,80,.2,101], [60,20,80,.2,90,0], [NaN,20,80,.2,90],
  [60,20,80,.2,90,Infinity]]) assert.throws(() => c(...values));
 console.log('Pruebas de carga: correctas.');
+const {compareCars} = require('../assets/ev-tools.js');
+const comparison = compareCars(r.per100,6,1.6,15000);
+assert.ok(Math.abs(comparison.electricAnnual - 500) < 1e-9);
+assert.ok(Math.abs(comparison.fuelAnnual - 1440) < 1e-9);
+assert.ok(Math.abs(comparison.savingAnnual - 940) < 1e-9);
+assert.ok(compareCars(12,6,1.6,15000).savingAnnual < 0);
+assert.equal(compareCars(9,6,1.5,15000).savingAnnual,0);
+assert.equal(compareCars(3,6,0,15000).percent,null);
+assert.equal(compareCars(3,6,1.6,0).savingAnnual,0);
+for (const args of [[3,0,1.6,15000],[3,6,-1,15000],[3,6,1,-1],[Infinity,6,1,15000]]) assert.throws(()=>compareCars(...args));
+console.log('Comparación: ejemplo, sobrecoste, empate, precio cero y validaciones correctos.');
