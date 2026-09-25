@@ -20,4 +20,4 @@ Ejecuta `python3 build_site.py` desde esta carpeta. Para verla localmente, sirve
 
 El generador fija las cuatro señales de Consent Mode en `denied` antes de cualquier etiqueta de Google. La etiqueta de Analytics solo se carga tras aceptar las analíticas. Aceptar no activa publicidad: requiere una CMP certificada e integración específica antes de instalar AdSense. El footer permite cambiar o revocar las preferencias.
 
-Antes de considerar cerrada la parte legal, activa `contacto@calculawatt.com` y sustituye los marcadores de NIF y domicilio; consulta `PENDIENTE-PARA-ADSENSE.md`.
+El titular completó los datos identificativos en `legal_content.py`. Antes de considerar cerrado el canal de contacto, activa y prueba la recepción de `contacto@calculawatt.com`; consulta `PENDIENTE-PARA-ADSENSE.md` para los pasos de monetización.
