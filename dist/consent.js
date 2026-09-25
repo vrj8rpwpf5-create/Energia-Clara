@@ -26,7 +26,7 @@
   }
 
   function apply(choice) {
-    // There are no advertising tags or certified CMP yet. Advertising stays denied.
+    // AdSense connection tag is installed; a certified CMP is still pending. Advertising stays denied.
     gtag('consent', 'update', {
       analytics_storage: choice.analytics ? 'granted' : 'denied',
       ad_storage: 'denied',

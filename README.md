@@ -4,7 +4,7 @@ Web estática multipágina de ahorro energético doméstico. No usa un framework
 
 ## Estructura
 
-- `build_site.py`: genera las páginas HTML, las URL canónicas, `robots.txt` y `sitemap.xml`.
+- `build_site.py`: genera las páginas HTML, las URL canónicas, `robots.txt`, `ads.txt` y `sitemap.xml`.
 - `templates/tool-shell.html`: plantilla de las tres calculadoras solares conectadas.
 - `legal_content.py`: textos del Aviso Legal y políticas de privacidad y cookies.
 - `assets/consent.js` y `assets/consent.css`: preferencias y presentación del banner.
@@ -18,6 +18,6 @@ Ejecuta `python3 build_site.py` desde esta carpeta. Para verla localmente, sirve
 
 `BASE` en `build_site.py` contiene el dominio previsto para el sitio existente. Cámbialo y regenera antes de usar un dominio propio.
 
-El generador fija las cuatro señales de Consent Mode en `denied` antes de cualquier etiqueta de Google. La etiqueta de Analytics solo se carga tras aceptar las analíticas. Aceptar no activa publicidad: requiere una CMP certificada e integración específica antes de instalar AdSense. El footer permite cambiar o revocar las preferencias.
+El generador fija las cuatro señales de Consent Mode en `denied` antes de cualquier etiqueta de Google. La etiqueta de Analytics solo se carga tras aceptar las analíticas. Aceptar no activa publicidad: requiere una CMP certificada e integración específica antes de monetizar con AdSense. La etiqueta de conexión de AdSense se carga después del consentimiento denegado inicial, sin bloques de anuncios ni llamadas para solicitarlos. El footer permite cambiar o revocar las preferencias.
 
 El titular completó los datos identificativos en `legal_content.py`. Antes de considerar cerrado el canal de contacto, activa y prueba la recepción de `contacto@calculawatt.com`; consulta `PENDIENTE-PARA-ADSENSE.md` para los pasos de monetización.
